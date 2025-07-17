@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Bill for {{ customer_name }}</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr><th>Product ID</th><th>Quantity</th><th>Price Per Unit</th><th>Total</th></tr>
+    {% for pid, qty, price in items %}
+    <tr>
+        <td>{{ pid }}</td>
+        <td>{{ qty }}</td>
+        <td>{{ price }}</td>
+        <td>{{ "%.2f"|format(qty * price) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>Subtotal: {{ "%.2f"|format(total) }}</p>
+<p>Tax (10%): {{ "%.2f"|format(tax) }}</p>
+<p>Discount: {{ "%.2f"|format(discount) }}</p>
+<p><strong>Grand Total: {{ "%.2f"|format(grand_total) }}</strong></p>
+
+<a href="{{ url_for('billing') }}">Generate another bill</a>
+{% endblock %}

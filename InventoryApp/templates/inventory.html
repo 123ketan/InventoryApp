@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Inventory Batches</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr><th>Batch ID</th><th>Product</th><th>Batch Code</th><th>Quantity</th></tr>
+    {% for batch in batches %}
+    <tr>
+        <td>{{ batch.batch_id }}</td>
+        <td>{{ batch.name }}</td>
+        <td>{{ batch.batch_code }}</td>
+        <td>{{ batch.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Add Inventory Batch</h3>
+<form method="POST" action="{{ url_for('add_inventory_batch') }}">
+    Product:
+    <select name="product_id" required>
+        {% for product in products %}
+        <option value="{{ product.id }}">{{ product.name }}</option>
+        {% endfor %}
+    </select><br><br>
+    Batch Code: <input type="text" name="batch_code" required><br><br>
+    Quantity: <input type="number" name="quantity" required><br><br>
+    <button type="submit">Add Batch</button>
+</form>
+
+<h3>Remove Inventory Quantity from Batch</h3>
+<form method="POST" action="{{ url_for('remove_inventory_batch') }}">
+    Batch:
+    <select name="batch_id" required>
+        {% for batch in batches %}
+        <option value="{{ batch.batch_id }}">{{ batch.batch_id }} - {{ batch.name }} - {{ batch.batch_code }} ({{ batch.quantity }})</option>
+        {% endfor %}
+    </select><br><br>
+    Quantity to Remove: <input type="number" name="quantity" required><br><br>
+    <button type="submit">Remove Quantity</button>
+</form>
+
+{% endblock %}
